@@ -2,8 +2,8 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 fn main() -> io::Result<()> {
-    // let path = "day1/test1.txt";
-    let path = "day1/input1.txt";
+    let path = "day1/test1.txt";
+    // let path = "day1/input1.txt";
 
     // Open the file
     let file = File::open(&path)
@@ -62,13 +62,32 @@ fn main() -> io::Result<()> {
             }
         };
 
+        // password method 0x434C49434B additions
+        let mut val2: i32 = value;
+        while val2 > 100 {
+            val2 -=100;
+            times_dial_at_zero += 1;
+        }
+
         // 5) Use sign and value to update dial
-        let change: i32 = sign * value;
+        let change: i32 = sign * val2;
+
+
+
         dial += change;
         if dial < 0 {
+            if dial != change {
+                times_dial_at_zero += 1;
+            }
             dial += 100;
         }
-        dial = dial % 100;
+        if dial > 100 {
+            dial -= 100;
+            times_dial_at_zero += 1;
+        }
+        if dial == 100 {
+            dial = 0;
+        }
         if dial == 0 {
             times_dial_at_zero += 1;
         }
