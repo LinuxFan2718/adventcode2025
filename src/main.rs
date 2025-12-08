@@ -2,7 +2,8 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 fn main() -> io::Result<()> {
-    let path = "day1/test1.txt";
+    // let path = "day1/test1.txt";
+    let path = "day1/input1.txt";
 
     // Open the file
     let file = File::open(&path)
