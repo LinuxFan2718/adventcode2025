@@ -8,14 +8,14 @@ fn main() -> io::Result<()> {
         .unwrap_or_else(|e| panic!("Could not open {}: {}", path, e));
     // Wrap it in a buffered reader
     let reader = io::BufReader::new(file);
-    let mut sum: i32 = 0;
+    let mut sum: i64 = 0;
 
     for line in reader.lines() {
         let line = line?;
         for value in line.split(',').map(str::trim).filter(|v| !v.is_empty()) {
           if let Some((left, right)) = value.split_once('-') {
-              let l: i32 = left.parse().unwrap();
-              let r: i32 = right.parse().unwrap();
+              let l: i64 = left.parse().unwrap();
+              let r: i64 = right.parse().unwrap();
               for i in l..=r {
                 let num = i.to_string();
                 let len: usize = num.len();
@@ -29,6 +29,6 @@ fn main() -> io::Result<()> {
           }
         }
     }
-    println!("sum={}", sum); // 1227775554
+    println!("sum={}", sum); // test=1227775554
     Ok(())
 }
