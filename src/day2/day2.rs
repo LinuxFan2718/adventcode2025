@@ -16,15 +16,24 @@ fn main() -> io::Result<()> {
           if let Some((left, right)) = value.split_once('-') {
               let l: i64 = left.parse().unwrap();
               let r: i64 = right.parse().unwrap();
-              for i in l..=r {
+              'outer: for i in l..=r {
                 let num = i.to_string();
                 let len: usize = num.len();
-                if len % 2 == 0 {
-                  let (first_half, second_half) = num.split_at(len / 2);
-                  if first_half == second_half {
+                for j  in 1..=len/2 {
+                  let chunks: Vec<&str> = num
+                    .as_bytes()
+                    .chunks(j)
+                    .map(|c| std::str::from_utf8(c).unwrap())
+                    .collect();
+                  let all_same = chunks.iter().all(|&c| c == chunks[0]);
+                  if all_same {
                     sum += i;
+                    println!("{}", i);
+                    continue 'outer;
                   }
+
                 }
+
               }
           }
         }
