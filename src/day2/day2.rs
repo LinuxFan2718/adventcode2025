@@ -2,8 +2,8 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 fn main() -> io::Result<()> {
-    let path: &'static str = "src/day2/test.txt";
-    // let path = "src/day2/input.txt";  
+    // let path: &'static str = "src/day2/test.txt";
+    let path = "src/day2/input.txt";  
     let file = File::open(&path)
         .unwrap_or_else(|e| panic!("Could not open {}: {}", path, e));
     // Wrap it in a buffered reader
