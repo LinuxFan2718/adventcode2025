@@ -10,6 +10,8 @@ fn main() -> io::Result<()> {
 
     // Wrap it in a buffered reader
     let reader = io::BufReader::new(file);
+
+    let mut answers: Vec<String> = vec![];
     // Iterate over the lines
     for line_result in reader.lines() {
         // First, handle I/O errors
@@ -25,8 +27,44 @@ fn main() -> io::Result<()> {
             .next_back()
             .map(|(idx, _)| &text[..idx])
             .unwrap_or(""); // empty if text is empty
+        let mut best: Option<(usize, u32)> = None; // (byte_index, digit_value)
 
-        println!("{} {}", text, body);
+        for (i, c) in body.char_indices() {
+            if let Some(d) = c.to_digit(10) {
+                match best {
+                    None => best = Some((i, d)),
+                    Some((_, best_d)) if d > best_d => best = Some((i, d)),
+                    Some((_, best_d)) if d == best_d => {} // keep leftmost
+                    _ => {}
+                }
+            }
+        }
+        let mut tail = "";
+        if let Some((idx, _digit)) = best {
+            if idx + 1 <= text.len() {
+                tail = &text[idx + 1..]; // from after the max digit to the end
+                
+            }
+        }
+        let max_digit = tail
+            .chars()
+            .filter_map(|c| c.to_digit(10))
+            .max()
+            .unwrap_or(0); // 0 if tail is empty
+
+        if let Some((_idx, digit)) = best {
+            let s = format!("{}{}", digit, max_digit);
+            answers.push(s);
+        }
+
+
+        // if let Some((idx, digit)) = best {
+        //     println!("max digit {} at byte index {}", digit, idx);
+        // }
+
+        // println!("{} {}\n", text, body);
       }
+      println!("{}", answers.join(", "));
       Ok(())
     }
+    
