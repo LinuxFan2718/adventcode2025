@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 
-fn main() -> io::Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let path = "src/day3/test.txt";
     // let path = "src/day3/input.txt";
     // Open the file
@@ -64,7 +64,15 @@ fn main() -> io::Result<()> {
 
         // println!("{} {}\n", text, body);
       }
-      println!("{}", answers.join(", "));
+      // println!("{}", answers.join(", "));
+      // returns Result<i64, _> so you can handle parse errors
+      let sum: i64 = answers
+          .iter()
+          .map(|s| s.parse::<i64>())
+          .collect::<Result<Vec<_>, _>>()?
+          .iter()
+          .sum();
+      println!("sum = {}", sum);
+
       Ok(())
     }
-    
