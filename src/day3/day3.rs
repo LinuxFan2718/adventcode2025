@@ -20,7 +20,13 @@ fn main() -> io::Result<()> {
                 continue;
             }
         };
-        println!("{}", text);
+        let body = text
+            .char_indices()
+            .next_back()
+            .map(|(idx, _)| &text[..idx])
+            .unwrap_or(""); // empty if text is empty
+
+        println!("{} {}", text, body);
       }
       Ok(())
     }
