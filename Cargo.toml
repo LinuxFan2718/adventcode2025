@@ -14,5 +14,9 @@ name = "day2"
 path = "src/day2/day2.rs"
 
 [[bin]]
-name = "day3"
-path = "src/day3/day3.rs"
+name = "day3part1"
+path = "src/day3/day3part1.rs"
+
+[[bin]]
+name = "day3part2"
+path = "src/day3/day3part2.rs"
